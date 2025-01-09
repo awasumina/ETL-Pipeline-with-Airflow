@@ -5,7 +5,7 @@ from airflow.decorators import task
 from airflow.utils.dates import days_ago
 import json
 from datetime import datetime
-
+  
 # Define dynamic file name based on the current date
 FILE_NAME = f"weather_data_{datetime.now().strftime('%Y-%m-%d')}.json"
 
