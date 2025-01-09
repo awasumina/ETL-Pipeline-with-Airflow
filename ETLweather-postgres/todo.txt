@@ -1,0 +1,21 @@
+1. Install astro through ASTRO CLI using powershell --> winget install -e --id Astronomer.Astro
+2. Initialize a new development environment for an existing Astro project --> astro dev init
+3. Create a DAG file, in this case etlweather.py
+    - extract weather data from api.open-meteo.com
+    - transform into format that can be loaded to db
+    - push into postgre db
+4. create docker-compose.yml file 
+5. cmd -> astro dev start
+6. at airflow 2 connection establish:
+    
+    connection id = open_meteo_api
+    connection type = http
+    host = https://api.open-meteo.com
+
+    connection id = postgres_default
+    connection type = postgres
+    host : et-lweather_c977ef-postgres-1 --> it is container nae of docker
+    database : postgres
+    login: postgres
+    port: 5432
+    password: admin
