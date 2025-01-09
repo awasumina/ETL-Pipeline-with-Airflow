@@ -1,7 +1,7 @@
 # Weather ETL Pipeline with Airflow
 
 This project sets up an ETL pipeline using Apache Airflow to extract weather data from the Open Meteo API, transform it into a suitable format, and load it into a PostgreSQL database. The pipeline runs daily to fetch real-time weather information based on the latitude and longitude of Kathmandu, Nepal (27.7172° N, 85.3240° E).
-
+  
 ## Prerequisites
 
 - **Astro CLI**: To manage the project locally using Docker
