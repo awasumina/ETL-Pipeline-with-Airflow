@@ -1,0 +1,7 @@
+version: '3.8'
+
+environment:
+  - AWS_ACCESS_KEY_ID=your key
+  - AWS_SECRET_ACCESS_KEY=your secret key
+  - AWS_DEFAULT_REGION=eu-north-1
+
