@@ -1,0 +1,3 @@
+pip install pandas
+pip install tweepy (to get twitter access package)
+pip install s3fs (for aws s3 service r/w)
