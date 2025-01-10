@@ -85,14 +85,6 @@ The CSV file contains:
 - `like_count`: Number of likes.
 
 
----
-
-- **Outputs**:
-  - Weather data in JSON (S3) or PostgreSQL.
-  - Processed tweet data in `refined_tweets_v2.csv`.
-
----
-
 ## Conclusion
 
 These pipelines illustrate the flexibility of Airflow in managing diverse ETL workflows. The Weather ETL pipeline provides insights into real-time weather data, while the Twitter ETL pipeline enables the analysis of social media trends. Both pipelines can be customized and scaled based on specific use cases.
