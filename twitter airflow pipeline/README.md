@@ -1,71 +1,33 @@
-# Weather ETL Pipeline with Airflow
+# Twitter ETL with Airflow
 
-This project sets up an ETL pipeline using Apache Airflow to extract weather data from the Open Meteo API, transform it into a suitable format, and load it either into an S3 bucket or a PostgreSQL database. The pipeline runs daily to fetch real-time weather information based on the latitude and longitude of Kathmandu, Nepal (27.7172° N, 85.3240° E).
+This project demonstrates an ETL (Extract, Transform, Load) pipeline that fetches tweets using the Twitter API, processes them, and saves the refined data into a CSV file. The pipeline is orchestrated using Apache Airflow.
 
-## Prerequisites
+## Overview
 
-- **Astro CLI**: To manage the project locally using Docker
-- **Docker**: To run the services locally in a containerized environment
-- **Amazon S3**: For storing the transformed weather data (optional setup)
-- **PostgreSQL**: For storing the transformed weather data (optional setup)
-- **Airflow**: To manage and schedule the ETL tasks
+The ETL pipeline consists of the following steps:
 
-## Airflow DAG Overview
+1. **Extract**: Retrieve tweets from a specified Twitter user using the Twitter API v2.
+2. **Transform**: Process the tweet data to extract relevant fields such as creation date, text, retweet count, and like count.
+3. **Load**: Save the processed data into a CSV file for further analysis.
 
-The Airflow DAG defined in `etlweather.py` performs the following steps:
+The entire process is automated with Apache Airflow, running daily as a scheduled task (DAG).
 
-1. **Extract**: 
-   - Fetches weather data from Open Meteo API using the HTTP hook.
+## Project Structure
 
-2. **Transform**: 
-   - Extracts necessary fields (latitude, longitude, windspeed, temperature, etc.) and prepares them for storage.
+- **`twitter_etl.py`**: Contains the Python script for the ETL process.
+- **Airflow DAG (`twitter_dag`)**: Defines the schedule and execution of the ETL pipeline.
+- **`refined_tweets_v2.csv`**: Output file containing the processed tweet data.
 
-3. **Load**:
-   - **Option 1: S3**: Loads the transformed data into an S3 bucket (`etlweather`) as a JSON file.
-   - **Option 2: PostgreSQL**: Loads the transformed data into a PostgreSQL table (`weather_data`) using the Postgres hook.
 
-### S3 Bucket Overview (Optional)
+## Output
+The processed tweet data will be saved in a CSV file named `refined_tweets_v2.csv` in the current working directory. This file includes the following fields:
 
-If you're storing the data in S3, the transformed weather data will be stored with the following characteristics:
-- **Bucket Name**: `etlweather`
-- **File Name**: The file is dynamically generated based on the current date (e.g., `weather_data_2025-01-09.json`).
+- **`created_at`**: Timestamp of the tweet.
+- **`text`**: Content of the tweet.
+- **`retweet_count`**: Number of retweets.
+- **`like_count`**: Number of likes.
 
-### Example Transformation Output (JSON)
-
-The transformed data is stored in the following JSON format when using S3:
-
-```json
-{
-    "latitude": 27.7172,
-    "longitude": 85.3240,
-    "windspeed": 3.5,
-    "winddirection": 180,
-    "temperature": 22.1,
-    "weathercode": 3
-}
-```
-
-### PostgreSQL Table Overview (Optional)
-
-If you're loading the data into PostgreSQL, the data will be inserted into the `weather_data` table. The table schema is defined as:
-
-```sql
-CREATE TABLE IF NOT EXISTS weather_data (
-    latitude FLOAT,
-    longitude FLOAT,
-    windspeed FLOAT,
-    winddirection FLOAT,
-    temperature FLOAT,
-    weathercode INT
-);
-```
-
-### Execution Schedule
-
-The pipeline runs daily, fetching the latest weather data and either:
-- Overwriting the JSON file in the S3 bucket if a file with the same name exists, or
-- Inserting new rows into the PostgreSQL `weather_data` table.
-
-## Conclusion
-
-This ETL pipeline automates the process of extracting weather data from the Open Meteo API, transforming it into a structured format, and loading it into either an S3 bucket or a PostgreSQL database for further analysis or use.
+## Notes
+- This example fetches up to 100 recent tweets from the specified user (`justinbieber`). You can adjust the `max_results` parameter as needed.
+- Ensure the Airflow environment's Python interpreter has access to the required libraries.
+- Handle API rate limits appropriately for larger-scale data extraction.
